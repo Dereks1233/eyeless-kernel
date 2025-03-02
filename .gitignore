@@ -138,7 +138,10 @@ all.config
 
 # Clang toolchain
 /toolchain/neutron_18/
-
+#
+build.log
+#
+last_kmsg
 # Auxiliary build files
 build/out/
 out/
