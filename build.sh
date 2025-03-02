@@ -73,12 +73,7 @@ if [ ! -f "$CLANG_DIR/bin/clang-18" ]; then
     popd > /dev/null
 fi
 
-# Apply KSU patch for FBE support
-# Else it'll lose allowlist on reboot
-# Source patch: https://github.com/Unb0rn/android_kernel_samsung_exynos9820/commit/e424dac6ce3f99e128aaabb0711d69adf4079c77
-pushd ./KernelSU > /dev/null
-#patch -p1 -t -N  < ../build/KSU.patch > /dev/null
-popd > /dev/null
+
 
 if [[ "$CCACHE_OPTION" == "y" ]]; then
     CCACHE=ccache
@@ -94,7 +89,7 @@ O=out
 "
 
 # Define specific variables
-KERNEL_DEFCONFIG=vulcan_"$MODEL"_defconfig
+KERNEL_DEFCONFIG=eyeless_"$MODEL"_defconfig
 case $MODEL in
 x1slte)
     BOARD=SRPSJ28B018KU
@@ -167,7 +162,7 @@ echo "-----------------------------------------------"
 echo "Building kernel using "$KERNEL_DEFCONFIG""
 echo "Generating configuration file..."
 echo "-----------------------------------------------"
-make ${MAKE_ARGS} -j$CORES $KERNEL_DEFCONFIG vulcan.config $RECOVERY $KSU || abort
+make ${MAKE_ARGS} -j$CORES $KERNEL_DEFCONFIG eyeless.config $RECOVERY $KSU || abort
 
 echo "Building kernel..."
 echo "-----------------------------------------------"
@@ -231,7 +226,7 @@ if [ -z "$RECOVERY" ]; then
     cp build/update-binary build/out/$MODEL/zip/META-INF/com/google/android/update-binary
     cp build/updater-script build/out/$MODEL/zip/META-INF/com/google/android/updater-script
 
-    version=$(grep -o 'CONFIG_LOCALVERSION="[^"]*"' arch/arm64/configs/vulcan.config | cut -d '"' -f 2)
+    version=$(grep -o 'CONFIG_LOCALVERSION="[^"]*"' arch/arm64/configs/eyeless.config | cut -d '"' -f 2)
     version=${version:1}
     pushd build/out/$MODEL/zip > /dev/null
     DATE=`date +"%d-%m-%Y_%H-%M-%S"`
