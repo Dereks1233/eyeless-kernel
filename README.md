@@ -71,7 +71,7 @@ https://source.android.com/docs/setup/start/requirements
 
 2. Properly clone repository with submodules (KernelSU and toolchains)
 
-```git clone --recurse-submodules https://github.com/Luphaestus/android_kernel_samsung_exynos990.git```
+```git clone --recurse-submodules https://github.com/Sexynos990/eyeless-kernel.git```
 
 3. Build for your device without CCache and with KSU
 
