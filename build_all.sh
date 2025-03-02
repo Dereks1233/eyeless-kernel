@@ -5,9 +5,9 @@ BUILD_FLAGS="$@"
 
 rm -rf build/out/all/
 
-for device in $(find . -iname "*vulcan_*" | sed -E 's/.*vulcan_([^_]*)(_defconfig|defconfig).*/\1/'); do
+for device in $(find . -iname "*eyeless_*" | sed -E 's/.*eyeless_([^_]*)(_defconfig|defconfig).*/\1/'); do
     echo "Building for device: $device"
-    ./build.sh -m "$device" $BUILD_FLAGS
+    ./build.sh -m "$device" -k y -c y
     
     # Check if build was successful
     if [ $? -ne 0 ]; then
