@@ -1,14 +1,5 @@
 #!/bin/bash
 
-abort()
-{
-    cd -
-    echo "-----------------------------------------------"
-    echo "Kernel compilation failed! Exiting..."
-    echo "-----------------------------------------------"
-    exit -1
-}
-
 unset_flags()
 {
     cat << EOF
@@ -18,6 +9,7 @@ Options:
     -k, --ksu [y/N]        Include KernelSU
     -r, --recovery [y/N]   Compile kernel for an Android Recovery
     -c, --ccache [y/N]     Use ccache to cache compilations
+    -f, --freq [value]     Set CPU frequency (underclocked, overclocked, original "if want to add yourself its in Freq dir")
 EOF
 }
 
@@ -39,6 +31,10 @@ while [[ $# -gt 0 ]]; do
             CCACHE_OPTION="$2"
             shift 2
             ;;
+        --freq|-f)
+            FREQ_OPTION="$2"
+            shift 2
+            ;;
         *)\
             unset_flags
             exit 1
@@ -49,7 +45,7 @@ done
 echo "Preparing the build environment..."
 
 pushd $(dirname "$0") > /dev/null
-CORES=`cat /proc/cpuinfo | grep -c processor`
+CORES=$(grep -c processor /proc/cpuinfo)
 
 # Define toolchain variables
 CLANG_DIR=$PWD/toolchain/neutron_18
@@ -72,8 +68,6 @@ if [ ! -f "$CLANG_DIR/bin/clang-18" ]; then
     echo "Cleaning up..."
     popd > /dev/null
 fi
-
-
 
 if [[ "$CCACHE_OPTION" == "y" ]]; then
     CCACHE=ccache
@@ -139,6 +133,18 @@ if [[ "$KSU_OPTION" == "y" ]]; then
     KSU=ksu.config
 fi
 
+# Handle Frequency Option
+if [[ -n "$FREQ_OPTION" ]]; then
+    echo "Applying CPU Frequency: $FREQ_OPTION"
+    if [ -f "Freq/${FREQ_OPTION}.c" ]; then
+        cp -r "Freq/${FREQ_OPTION}.c" "drivers/cpufreq/exynos-acme.c"
+        echo "Applied ${FREQ_OPTION} preset to exynos-acme.c"
+    else
+        echo "Error: Frequency file Freq/${FREQ_OPTION}.c not found!"
+        exit 1
+    fi
+fi
+
 rm -rf arch/arm64/configs/temp_defconfig
 rm -rf build/out/$MODEL
 mkdir -p build/out/$MODEL/zip/files
@@ -167,6 +173,7 @@ make ${MAKE_ARGS} -j$CORES $KERNEL_DEFCONFIG eyeless.config $RECOVERY $KSU || ab
 echo "Building kernel..."
 echo "-----------------------------------------------"
 make ${MAKE_ARGS} -j$CORES 2>&1 | tee build.log || abort
+
 
 # Define constant variables
 DTB_PATH=build/out/$MODEL/dtb.img
