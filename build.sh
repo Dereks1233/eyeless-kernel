@@ -166,7 +166,7 @@ make ${MAKE_ARGS} -j$CORES $KERNEL_DEFCONFIG eyeless.config $RECOVERY $KSU || ab
 
 echo "Building kernel..."
 echo "-----------------------------------------------"
-make ${MAKE_ARGS} -j$CORES || abort
+make ${MAKE_ARGS} -j$CORES 2>&1 | tee build.log || abort
 
 # Define constant variables
 DTB_PATH=build/out/$MODEL/dtb.img
