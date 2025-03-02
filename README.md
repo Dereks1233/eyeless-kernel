@@ -1,4 +1,4 @@
-# VulcanKernel for Exynos 990 devices
+# Eyeless for Exynos 990 devices
 
 ## Credits
 - Special thanks to [ExtremeXT](https://github.com/ExtremeXT) for the original ExtremeKernel source code and development
@@ -33,8 +33,9 @@
 - Various other backports from newer kernel versions
 - Easy to modify and compile for developers
 - Optimized for a balance between performance, battery life and low thermals
-- Fully open source with a clean commit history
-- now with Overclocked cpu from https://github.com/Sexynos990 
+- Fully open source with a not so clean commit history
+- now with Overclocked cpu
+ 
 
 ## Supported devices:
 
@@ -82,7 +83,7 @@ https://source.android.com/docs/setup/start/requirements
 
 4. Fetch the flashable zip of the kernel that was just compiled
 
-```build/out/[your_device]/VulcanKernel...zip```
+```build/out/[your_device]/eyeless...zip```
 
 5. Flash it using a supported recovery like TWRP or PBRP (AOSP recovery does not work)
 
