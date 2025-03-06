@@ -145,3 +145,7 @@ last_kmsg
 # Auxiliary build files
 build/out/
 out/
+
+        recovery.img
+        system.img
+
