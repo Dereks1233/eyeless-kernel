@@ -28,7 +28,7 @@ jobs:
           # Make the build script executable (if it's not already)
           chmod +x build.sh
           # Run the build script
-          ./build.sh
+          ./build_all.sh
 
       - name: Upload Kernel Artifacts
         uses: actions/upload-artifact@v1 # This is the right action
