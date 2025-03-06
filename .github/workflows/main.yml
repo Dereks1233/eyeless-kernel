@@ -10,14 +10,15 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest  # Choose your environment (Ubuntu is commonly used)
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Set up the environment
         run: |
+          # Install dependencies (if necessary; customize based on your `build.sh` needs)
           sudo apt-get update
           sudo apt-get install -y build-essential libncurses5-dev bison flex libssl-dev \
             libelf-dev bc curl wget git python3
@@ -27,10 +28,10 @@ jobs:
           # Make the build script executable (if it's not already)
           chmod +x build.sh
           # Run the build script
-          ./build_all.sh
+          ./build.sh
 
       - name: Upload Kernel Artifacts
-        uses: actions/upload-artifact@v3
+        uses: github/upload-artifact@v1  # Use the latest version of GitHub's official upload-artifact action
         with:
           name: kernel-artifacts
           path: build/out/all/*  # Upload everything inside the build/out directory
