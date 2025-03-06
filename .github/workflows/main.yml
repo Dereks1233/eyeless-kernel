@@ -26,12 +26,12 @@ jobs:
       - name: Run build script
         run: |
           # Make the build script executable (if it's not already)
-          chmod +x build.sh
+          chmod +x build_all.sh
           # Run the build script
           ./build_all.sh
 
       - name: Upload Kernel Artifacts
-        uses: actions/upload-artifact@v1 # This is the right action
+        uses: actions/upload-artifact@v4  # Latest stable version of artifact upload
         with:
           name: kernel-artifacts
-          path: build/out/all/*  # Upload everything inside the build/out directory
+          path: build/out/all/*  # Upload everything inside the build/out/all directory
