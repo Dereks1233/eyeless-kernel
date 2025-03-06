@@ -1,9 +1,9 @@
-name: Kernel Build
+name: EYELESS
 
 on:
   push:
     branches:
-      - EYELESS-V0
+      - EYELESS-V0  # Or your preferred branch
   pull_request:
     branches:
       - EYELESS-V0
@@ -31,7 +31,7 @@ jobs:
           ./build.sh
 
       - name: Upload Kernel Artifacts
-        uses: github/upload-artifact@v1  # Use the latest version of GitHub's official upload-artifact action
+        uses: actions/upload-artifact@v3
         with:
           name: kernel-artifacts
           path: build/out/all/*  # Upload everything inside the build/out directory
